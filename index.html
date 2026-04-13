@@ -2,173 +2,60 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>全平台专业拼图</title>
-    <style>
-        :root { --bg: #0f172a; --panel: #1e293b; --accent: #3b82f6; --selected: #fbbf24; }
-        body { font-family: system-ui, sans-serif; background: var(--bg); color: white; margin: 0; display: flex; flex-direction: column; align-items: center; height: 100vh; overflow: hidden; }
-        
-        .header { background: var(--panel); width: 100%; padding: 15px; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; z-index: 100; box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
-        .btn { background: var(--accent); color: white; padding: 10px 20px; border-radius: 8px; border: none; font-weight: 600; cursor: pointer; }
-        select { background: #334155; color: white; border: none; padding: 10px; border-radius: 8px; outline: none; }
-        input[type="file"] { display: none; }
-
-        #game-board { 
-            display: grid; margin: 20px auto;
-            width: 90vw; height: 90vw; max-width: 500px; max-height: 500px;
-            background: #334155; gap: 2px; border: 4px solid #334155; 
-            border-radius: 8px; position: relative; touch-action: none;
-        }
-
-        .piece { 
-            width: 100%; height: 100%; background-repeat: no-repeat; 
-            cursor: pointer; position: relative; transition: all 0.2s;
-            box-sizing: border-box; border: 1px solid rgba(255,255,255,0.1);
-        }
-
-        /* 选中状态：吸住效果 */
-        .piece.selected { 
-            z-index: 100; transform: scale(1.05); 
-            border: 3px solid var(--selected);
-            box-shadow: 0 0 20px var(--selected);
-        }
-
-        #win-toast { 
-            position: fixed; bottom: 10%; background: #10b981; color: white; 
-            padding: 12px 24px; border-radius: 50px; display: none; 
-            font-weight: bold; animation: fadeInUp 0.3s;
-        }
-        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的AI作品展示</title>
+    <link rel="stylesheet" href="style.css">
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 </head>
 <body>
 
-<div class="header">
-    <label class="btn" for="upload">📷 选择照片</label>
-    <input type="file" id="upload" accept="image/*">
-    <select id="level">
-        <option value="3">3 x 3</option>
-        <option value="5">5 x 5</option>
-        <option value="8">8 x 8</option>
-    </select>
-    <button class="btn" onclick="initGame()">开始/洗牌</button>
-</div>
+    <header>
+        <h1>🤖 我的AI作品展示</h1>
+        <p>点击下方卡片体验我的 AI 练手作品</p>
+    </header>
 
-<div id="game-board"></div>
-<div id="win-toast">🎉 拼图成功！</div>
+    <div class="game-grid">
+        <a href="play.html?game=doudizhu3/index.html&title=三人斗地主" class="game-card">
+            <div class="icon">⚔️</div>
+            <h3>三人斗地主</h3>
+        </a>
 
-<script>
-    const board = document.getElementById('game-board');
-    const upload = document.getElementById('upload');
-    const levelSelect = document.getElementById('level');
-    let imgUrl = "";
-    let firstSelected = null;
+        <a href="play.html?game=pintu/index.html&title=拼图" class="game-card">
+            <div class="icon">🧩</div>
+            <h3>经典拼图</h3>
+        </a>
 
-    upload.onchange = (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            imgUrl = URL.createObjectURL(file);
-            initGame();
-        }
-    };
+        <a href="play.html?game=guandan/index.html&title=掼蛋" class="game-card">
+            <div class="icon">🃏</div>
+            <h3>掼蛋游戏</h3>
+        </a>
 
-    function initGame() {
-        if (!imgUrl) { alert("请先上传一张图片！"); return; }
-        const grid = parseInt(levelSelect.value);
-        board.innerHTML = "";
-        board.style.gridTemplateColumns = `repeat(${grid}, 1fr)`;
-        document.getElementById('win-toast').style.display = 'none';
-        firstSelected = null;
+        <a href="play.html?game=maze/index.html&title=染色迷宫" class="game-card">
+            <div class="icon">🌀</div>
+            <h3>染色迷宫</h3>
+        </a>
 
-        // 生成打乱的索引
-        let sequence = Array.from({length: grid * grid}, (_, i) => i);
-        sequence.sort(() => Math.random() - 0.5);
+        <a href="play.html?game=match/index.html&title=连连看" class="game-card">
+            <div class="icon">🔗</div>
+            <h3>连连看</h3>
+        </a>
 
-        sequence.forEach((val) => {
-            const piece = document.createElement('div');
-            piece.className = 'piece';
-            piece.dataset.originIdx = val; 
-            
-            const r = Math.floor(val / grid);
-            const c = val % grid;
-            const percent = 100 / (grid - 1);
-            piece.style.backgroundImage = `url(${imgUrl})`;
-            piece.style.backgroundSize = `${grid * 100}% ${grid * 100}%`;
-            piece.style.backgroundPosition = `${c * percent}% ${r * percent}%`;
+        <a href="play.html?game=candy/index.html&title=糖果消消乐" class="game-card">
+            <div class="icon">🍬</div>
+            <h3>糖果消消乐</h3>
+        </a>
+    </div>
 
-            // 核心交互逻辑
-            piece.onclick = function() {
-                handleSelection(this);
-            };
-            
-            board.appendChild(piece);
-        });
-    }
+    <footer class="site-footer">
+        <div class="counter">
+            <span id="busuanzi_container_site_pv">本站总访问量 <span id="busuanzi_value_site_pv"></span> 次</span>
+            <span class="divider">|</span>
+            <span id="busuanzi_container_site_uv">您是第 <span id="busuanzi_value_site_uv"></span> 位访客</span>
+        </div>
+        <div class="beian">
+            <a href="https://beian.miit.gov.cn/" target="_blank">浙ICP备2026021862号</a>
+        </div>
+    </footer>
 
-    function handleSelection(clickedPiece) {
-        if (!firstSelected) {
-            // 第一次点击：吸住
-            firstSelected = clickedPiece;
-            firstSelected.classList.add('selected');
-        } else if (firstSelected === clickedPiece) {
-            // 再次点击同一块：取消选中
-            firstSelected.classList.remove('selected');
-            firstSelected = null;
-        } else {
-            // 点击第二块：交换位置
-            swapPieces(firstSelected, clickedPiece);
-            firstSelected.classList.remove('selected');
-            firstSelected = null;
-            checkWin();
-        }
-    }
-
-    function swapPieces(nodeA, nodeB) {
-        const parent = nodeA.parentNode;
-        const siblingA = nodeA.nextSibling === nodeB ? nodeA : nodeA.nextSibling;
-        
-        // 交换 DOM 节点
-        nodeB.replaceWith(nodeA.cloneNode(true)); // 用克隆占位
-        const tempNode = parent.childNodes[Array.from(parent.childNodes).indexOf(nodeA)]; 
-        
-        // 重新绑定事件（因为 cloneNode 不带事件）
-        nodeA.onclick = function() { handleSelection(this); };
-        nodeB.onclick = function() { handleSelection(this); };
-
-        // 实际对调
-        if (nodeA.nextSibling === nodeB) {
-            parent.insertBefore(nodeB, nodeA);
-        } else {
-            const nextB = nodeB.nextSibling;
-            parent.insertBefore(nodeB, nodeA);
-            parent.insertBefore(nodeA, nextB);
-        }
-    }
-
-    // 优化的交换逻辑（不使用克隆，直接操作 DOM 节点）
-    function swapPieces(node1, node2) {
-        const nodes = Array.from(board.children);
-        const idx1 = nodes.indexOf(node1);
-        const idx2 = nodes.indexOf(node2);
-        
-        if (idx1 < idx2) {
-            board.insertBefore(node2, node1);
-            board.insertBefore(node1, board.children[idx2 + 1] || null);
-        } else {
-            board.insertBefore(node1, node2);
-            board.insertBefore(node2, board.children[idx1 + 1] || null);
-        }
-    }
-
-    function checkWin() {
-        const currentOrder = Array.from(board.children).map(p => p.dataset.originIdx);
-        const win = currentOrder.every((val, i) => val == i);
-        if (win) {
-            setTimeout(() => {
-                document.getElementById('win-toast').style.display = 'block';
-            }, 300);
-        }
-    }
-</script>
 </body>
 </html>
